@@ -1,0 +1,4 @@
+npm install axios
+npm install cors
+npm install express
+npm install zod
