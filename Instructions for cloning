@@ -1,0 +1,4 @@
+Run all of these in terminal-
+npm install express
+npm install cors
+npm install zod
