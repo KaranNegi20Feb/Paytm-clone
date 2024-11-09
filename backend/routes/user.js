@@ -66,7 +66,7 @@ router.post("/signin", async (req, res) => {
     const { success } = signinBody.safeParse(req.body)
     if (!success) {
         return res.status(411).json({
-            message: "Email already taken / Incorrect inputs"
+            message: "Wrong Credentials / Incorrect inputs"
         })
     }
 
@@ -139,5 +139,31 @@ router.get("/bulk", async (req, res) => {
         }))
     })
 })
+
+
+router.get("/userdetails", authMiddleware, async (req, res) => {
+    try {
+        const user = await User.findOne(
+            {
+                _id:req.userId
+            }
+        );  // Use `findOne` to return a single document
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.json({
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,  
+        });
+    } catch (error) {
+        console.error("Error fetching user details:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+
 
 module.exports = router;
